@@ -29,46 +29,15 @@ public class ServiceCtaImplement implements ServiceCta {
 	@Autowired
 	private RepoMovimientos repoMov;
 	
-	@Autowired
-	private WebClient client;
-	
 	//private List<String> aux;
 	@Override
 	public Mono<Map<String, Object>> saveData(CuentaAhorro cuenta) {
-		Map<String, Object> respuesta = new HashMap<String, Object>();
-		//validando tipo de cuenta: Persona o Empresa
-		if(cuenta.getTipo().equals("P")) {
-			
-			cuenta.getTitulares().stream().forEach(titular->{
-			
-			client.post().uri("/savePersonaData").accept(MediaType.APPLICATION_JSON_UTF8)
-					.contentType(MediaType.APPLICATION_JSON_UTF8)
-					.body(BodyInserters.fromObject(titular))
-					.retrieve()
-					.bodyToMono(Persona.class).subscribe();
-			
-			});
-			return repo1.save(cuenta).map(cta->{
-				respuesta.put("Mensaje: ", "guardado correcto");
-				return  respuesta;
-			});
-			
-		}else {
-			return Mono.just(cuenta).map(c->{
-				respuesta.put("Error", "Las cuentas de ahorro son solo para clintes Persona.");
-				return respuesta;
-			});
-		}
+Map<String, Object> respuesta = new HashMap<String, Object>();
 		
-		
-		// TODO Auto-generated method stub
-		
-		/*return repo1.save(cuenta).map(cta->{
+		return repo1.save(cuenta).map(cta->{
 			respuesta.put("Mensaje: ", "guardado correcto");
 			return  respuesta;
-		});*/
-		//respuesta.put("Mensaje: ", "guardado correcto");
-		
+		});
 	}
 
 	@Override
@@ -112,7 +81,7 @@ public class ServiceCtaImplement implements ServiceCta {
 				case "deposito":{
 					cta.setSaldo(saldo+movimiento.getMonto());
 					repo1.save(cta).subscribe();
-					repoMov.save(movimiento);
+					repoMov.save(movimiento).subscribe();
 					respuesta.put("Result", "Deposito realizado, su nuevo saldo es: "+(saldo+movimiento.getMonto()));
 					return respuesta;
 				}
