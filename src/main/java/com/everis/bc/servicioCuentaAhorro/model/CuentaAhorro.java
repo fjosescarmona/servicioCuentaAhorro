@@ -12,11 +12,11 @@ public class CuentaAhorro {
 	@Id
 	private String id;
 	@NotNull
-	private String nro_cuenta;
+	private String nro_cuenta="";
 	@NotNull
-	private String tipo;
+	private String tipo="";
 	@NotNull
-	private double saldo;
+	private double saldo=0;
 	
 	private List<Listas> titulares;
 	

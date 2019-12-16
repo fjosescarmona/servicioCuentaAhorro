@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 
 public interface ServiceCta {
 	
-	public Mono<Map<String, Object>> saveData(CuentaAhorro cuenta);
+	public Mono<CuentaAhorro> saveData(CuentaAhorro cuenta);
 	
 	public Flux<CuentaAhorro> getData();
 	

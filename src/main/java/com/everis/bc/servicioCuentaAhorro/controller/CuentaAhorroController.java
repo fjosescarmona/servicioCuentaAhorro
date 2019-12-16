@@ -23,7 +23,7 @@ public class CuentaAhorroController {
 	private ServiceCta s_cuenta;
 
 	@PostMapping("/saveCAhorroData")
-	public Mono<Map<String, Object>> saveCAhorroData(@RequestBody CuentaAhorro cuenta){
+	public Mono<CuentaAhorro> saveCAhorroData(@RequestBody CuentaAhorro cuenta){
 		return s_cuenta.saveData(cuenta);
 	}
 	
