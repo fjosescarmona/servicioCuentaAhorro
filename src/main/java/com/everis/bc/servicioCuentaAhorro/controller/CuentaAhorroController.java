@@ -42,9 +42,9 @@ public class CuentaAhorroController {
 		return s_cuenta.saveMovimiento(movimiento);
 	}
 	
-	@GetMapping("/getMovimientosAhorro")
-	public Flux<Movimientos> getMovimientosAhorro(){
-		return s_cuenta.getMovimientos();
+	@GetMapping("/getMovimientosAhorro/{nro_cuenta}")
+	public Flux<Movimientos> getMovimientosAhorro(@PathVariable("nro_cuenta") String nro_cuenta){
+		return s_cuenta.getMovimientos(nro_cuenta);
 	}
 
 }

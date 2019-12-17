@@ -103,9 +103,9 @@ public class ServiceCtaImplement implements ServiceCta {
 	}
 
 	@Override
-	public Flux<Movimientos> getMovimientos() {
+	public Flux<Movimientos> getMovimientos(String nro_cuenta) {
 		// TODO Auto-generated method stub
-		return repoMov.findAll();
+		return repoMov.findByNro_cuenta(nro_cuenta);
 	}
 
 	@Override
