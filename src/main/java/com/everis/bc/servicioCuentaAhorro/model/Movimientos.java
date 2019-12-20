@@ -16,12 +16,44 @@ public class Movimientos {
 	@NotNull
 	private String nro_cuenta;
 	@NotNull
+	private String nro_tarjeta;
+	@NotNull
+	private String cuentaTo;
+	@NotNull
+	private String cuentaToTipo;
+	@NotNull
+	private String cuentaFrom;
+	@NotNull
 	private String descripcion;
 	@NotNull
 	private double monto;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fecha;
 	
+	public String getCuentaTo() {
+		return cuentaTo;
+	}
+	public void setCuentaTo(String cuentaTo) {
+		this.cuentaTo = cuentaTo;
+	}
+	public String getCuentaToTipo() {
+		return cuentaToTipo;
+	}
+	public void setCuentaToTipo(String cuentaToTipo) {
+		this.cuentaToTipo = cuentaToTipo;
+	}
+	public String getCuentaFrom() {
+		return cuentaFrom;
+	}
+	public void setCuentaFrom(String cuentaFrom) {
+		this.cuentaFrom = cuentaFrom;
+	}
+	public String getNro_tarjeta() {
+		return nro_tarjeta;
+	}
+	public void setNro_tarjeta(String nro_tarjeta) {
+		this.nro_tarjeta = nro_tarjeta;
+	}
 	public String getNro_cuenta() {
 		return nro_cuenta;
 	}

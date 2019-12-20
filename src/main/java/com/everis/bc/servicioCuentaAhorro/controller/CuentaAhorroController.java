@@ -13,6 +13,7 @@ import com.everis.bc.servicioCuentaAhorro.model.CuentaAhorro;
 import com.everis.bc.servicioCuentaAhorro.model.Movimientos;
 import com.everis.bc.servicioCuentaAhorro.service.ServiceCta;
 
+import io.swagger.annotations.ApiOperation;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -37,14 +38,35 @@ public class CuentaAhorroController {
 		return s_cuenta.getSaldo(nro_cuenta);
 	}
 	
-	@PostMapping("/saveMovimientosAhorro")
-	public Mono<Map<String, Object>> saveMovimientosAhorro(@RequestBody Movimientos movimiento){
-		return s_cuenta.saveMovimiento(movimiento);
-	}
 	
 	@GetMapping("/getMovimientosAhorro/{nro_cuenta}")
 	public Flux<Movimientos> getMovimientosAhorro(@PathVariable("nro_cuenta") String nro_cuenta){
 		return s_cuenta.getMovimientos(nro_cuenta);
+	}
+	
+	@PostMapping("/savePagotdcAhorro")
+	public Mono<Movimientos> savePagotdcAhorro(@RequestBody Movimientos movimiento){
+		return s_cuenta.savePagotdc(movimiento);
+	}
+	
+	@PostMapping("/saveDepositoAhorro")
+	public Mono<Movimientos> saveDepositoAhorro(@RequestBody Movimientos movimiento){
+		return s_cuenta.saveDeposito(movimiento);
+	}
+	
+	@PostMapping("/saveRetiroAhorro")
+	public Mono<Movimientos> saveRetiroAhorro(@RequestBody Movimientos movimiento){
+		return s_cuenta.saveRetiro(movimiento);
+	}
+	
+	@PostMapping("/getTransferAhorro")
+	public Mono<Movimientos> getTransferAhorro(@RequestBody Movimientos movimiento){
+		return s_cuenta.getTransfer(movimiento);
+	}
+	
+	@PostMapping("/setTransferAhorro")
+	public Mono<Movimientos> setTransferAhorro(@RequestBody Movimientos movimiento){
+		return s_cuenta.setTransfer(movimiento);
 	}
 
 }
