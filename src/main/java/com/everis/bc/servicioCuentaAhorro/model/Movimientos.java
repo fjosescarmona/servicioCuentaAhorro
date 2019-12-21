@@ -27,9 +27,17 @@ public class Movimientos {
 	private String descripcion;
 	@NotNull
 	private double monto;
+	@NotNull
+	private double comision;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fecha;
 	
+	public double getComision() {
+		return comision;
+	}
+	public void setComision(double comision) {
+		this.comision = comision;
+	}
 	public String getCuentaTo() {
 		return cuentaTo;
 	}
