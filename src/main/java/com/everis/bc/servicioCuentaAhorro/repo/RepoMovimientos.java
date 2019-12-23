@@ -1,5 +1,7 @@
 package com.everis.bc.servicioCuentaAhorro.repo;
 
+import java.util.Date;
+
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
@@ -11,4 +13,6 @@ public interface RepoMovimientos extends ReactiveMongoRepository<Movimientos, St
 
 	@Query("{ 'nro_cuenta': ?0 }")
 	public Flux<Movimientos> findByNro_cuenta(String nro_cuenta);
+	
+	public Flux<Movimientos> findByFechaBetween(Date from, Date to);
 }

@@ -34,4 +34,6 @@ public interface ServiceCta {
 	public Mono<Movimientos> setTransfer(Movimientos mov);
 	
 	public Flux<Movimientos> getMovimientos(String nro_cuenta);
+	
+	public Flux<Movimientos> getRangeMovimientos(String nro_cuenta, String from, String to);
 }

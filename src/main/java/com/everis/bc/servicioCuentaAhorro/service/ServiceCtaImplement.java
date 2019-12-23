@@ -1,8 +1,11 @@
 package com.everis.bc.servicioCuentaAhorro.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +59,7 @@ public class ServiceCtaImplement implements ServiceCta {
 
 	@Override
 	public Mono<CuentaAhorro> saveData(CuentaAhorro cuenta) {
-		Map<String, Object> respuesta = new HashMap<String, Object>();
+		//Map<String, Object> respuesta = new HashMap<String, Object>();
 
 		List<String> doc = new ArrayList<>();
 		for (Listas h : cuenta.getTitulares()) {
@@ -64,7 +67,12 @@ public class ServiceCtaImplement implements ServiceCta {
 		}
 
 		return repo1.findByTitularesDocList(doc).flatMap(ctas -> {
-			return Mono.just(ctas);
+			if(!ctas.getBankcode().equals(cuenta.getBankcode())) {
+				return repo1.save(cuenta);
+			}else {
+				return Mono.just(ctas);
+			}
+			
 		}).switchIfEmpty(repo1.save(cuenta).flatMap(cta -> {
 			return Mono.just(cta);
 		})).next();
@@ -406,4 +414,25 @@ public class ServiceCtaImplement implements ServiceCta {
 		});
 	}
 
+	@Override
+	public Flux<Movimientos> getRangeMovimientos(String nro_cuenta, String from, String to) {
+		// TODO Auto-generated method stub
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+		 try {
+			
+			Date first = df.parse(from);
+			Date last = df.parse(to);
+			System.out.println(first.toString()+" "+last);
+			
+			//return repoMov.findAllDateRangeByNro_cuenta(nro_cuenta, first, last);
+			return repoMov.findByFechaBetween(first, last).filter(moves->moves.getNro_cuenta().equals(nro_cuenta));
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			return null;
+		}
+		
+	}
 }

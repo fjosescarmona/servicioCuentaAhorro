@@ -68,5 +68,10 @@ public class CuentaAhorroController {
 	public Mono<Movimientos> setTransferAhorro(@RequestBody Movimientos movimiento){
 		return s_cuenta.setTransfer(movimiento);
 	}
+	
+	@GetMapping("/getRangeMovimientosAhorro/{nro_cuenta}/{from}/{to}")
+	public Flux<Movimientos> getRangeMovimientosAhorro(@PathVariable("nro_cuenta") String nro_cuenta, @PathVariable("from") String from, @PathVariable("to") String to){
+		return s_cuenta.getRangeMovimientos(nro_cuenta, from, to);
+	}
 
 }

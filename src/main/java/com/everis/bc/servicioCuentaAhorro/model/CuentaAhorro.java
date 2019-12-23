@@ -28,6 +28,10 @@ public class CuentaAhorro {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date lastmove;
 	
+	private List<Listas> titulares;
+	
+	private List<Listas> firmantes;
+	
 	public String getBankcode() {
 		return bankcode;
 	}
@@ -59,10 +63,6 @@ public class CuentaAhorro {
 	public void setLastmove(Date lastmove) {
 		this.lastmove = lastmove;
 	}
-
-	private List<Listas> titulares;
-	
-	private List<Listas> firmantes;
 	
 	public String getTipo() {
 		return tipo;
