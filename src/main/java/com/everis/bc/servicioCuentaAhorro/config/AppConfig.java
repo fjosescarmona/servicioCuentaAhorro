@@ -19,6 +19,8 @@ public class AppConfig {
 	private String vip;
 	@Value("${valores.uri_ahorro}")
 	private String ahorro;
+	@Value("${valores.uri_info}")
+	private String info;
 	
 	@Bean
 	@Qualifier("tc")
@@ -47,5 +49,11 @@ public class AppConfig {
 	@Qualifier("ahorro")
 	public WebClient webClientAhorro() {
 		return WebClient.create(ahorro);
+	}
+	
+	@Bean
+	@Qualifier("info")
+	public WebClient webClientInfo() {
+		return WebClient.create(info);
 	}
 }

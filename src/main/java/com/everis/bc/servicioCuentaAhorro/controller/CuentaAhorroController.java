@@ -29,7 +29,7 @@ public class CuentaAhorroController {
 	}
 	
 	@GetMapping("/getCAhorroData/{doc}")
-	public Mono<CuentaAhorro> getCAhorroData(@PathVariable("doc") String doc){
+	public Flux<CuentaAhorro> getCAhorroData(@PathVariable("doc") String doc){
 		return s_cuenta.getDataByDoc(doc);
 	}
 	
