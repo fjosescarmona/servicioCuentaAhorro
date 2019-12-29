@@ -1,5 +1,6 @@
 package com.everis.bc.servicioCuentaAhorro.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.everis.bc.servicioCuentaAhorro.model.Deudores;
 import com.everis.bc.servicioCuentaAhorro.model.CuentaAhorro;
 import com.everis.bc.servicioCuentaAhorro.model.Movimientos;
 import com.everis.bc.servicioCuentaAhorro.service.ServiceCta;
@@ -72,6 +74,11 @@ public class CuentaAhorroController {
 	@GetMapping("/getRangeMovimientosAhorro/{nro_cuenta}/{from}/{to}")
 	public Flux<Movimientos> getRangeMovimientosAhorro(@PathVariable("nro_cuenta") String nro_cuenta, @PathVariable("from") String from, @PathVariable("to") String to){
 		return s_cuenta.getRangeMovimientos(nro_cuenta, from, to);
+	}
+	
+	@PostMapping("/saveDeudoresAhorro")
+	public Flux<Deudores> saveDeudoresAhorro(@RequestBody List<Deudores> deudores){
+		return s_cuenta.saveDeudoresAhorro(deudores);
 	}
 
 }

@@ -64,7 +64,7 @@ public class ServiceCtaImplement implements ServiceCta {
 
 	@Override
 	public Mono<CuentaAhorro> saveData(CuentaAhorro cuenta) {
-		Map<String, Object> params = new HashMap<String, Object>();
+		
 
 		List<String> docs = new ArrayList<>();
 		for (Listas h : cuenta.getTitulares()) {
@@ -166,13 +166,7 @@ public class ServiceCtaImplement implements ServiceCta {
 
 	@Override
 	public Mono<Movimientos> saveDeposito(Movimientos mov) {
-		// TODO Auto-generated method stub
-		/*
-		 * return repo1.findByNro_cuenta(mov.getNro_cuenta()).flatMap(cta -> {
-		 * 
-		 * cta.setSaldo(cta.getSaldo() + mov.getMonto()); return
-		 * repo1.save(cta).flatMap(ncta -> { return repoMov.save(mov); }); });
-		 */
+		
 		return repo1.findByNro_cuenta(mov.getNro_cuenta()).flatMap(cta -> {
 			// -----------------valida si tiene movimientos disponibles en el
 			// mes-----------------//
@@ -222,12 +216,7 @@ public class ServiceCtaImplement implements ServiceCta {
 	@Override
 	public Mono<Movimientos> saveRetiro(Movimientos mov) {
 		// TODO Auto-generated method stub
-		/*
-		 * return repo1.findByNro_cuenta(mov.getNro_cuenta()).flatMap(cta -> { if
-		 * (cta.getSaldo() >= mov.getMonto()) { cta.setSaldo(cta.getSaldo() -
-		 * mov.getMonto()); return repo1.save(cta).flatMap(ncta -> { return
-		 * repoMov.save(mov); }); } else { return Mono.just(new Movimientos()); } });
-		 */
+		
 		return repo1.findByNro_cuenta(mov.getNro_cuenta()).flatMap(cta -> {
 			// -----------------valida si tiene movimientos disponibles en el
 			// mes-----------------//
@@ -442,5 +431,15 @@ public class ServiceCtaImplement implements ServiceCta {
 			return null;
 		}
 
+	}
+
+	@Override
+	public Flux<Deudores> saveDeudoresAhorro(List<Deudores> deudores) {
+		// TODO Auto-generated method stub
+		
+		return repod.deleteAll().flatMapMany(v->{
+			return repod.saveAll(deudores);
+		}).switchIfEmpty(repod.saveAll(deudores));
+		
 	}
 }

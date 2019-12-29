@@ -1,8 +1,10 @@
 package com.everis.bc.servicioCuentaAhorro.service;
 
 
+import java.util.List;
 import java.util.Map;
 
+import com.everis.bc.servicioCuentaAhorro.model.Deudores;
 import com.everis.bc.servicioCuentaAhorro.model.CuentaAhorro;
 import com.everis.bc.servicioCuentaAhorro.model.Movimientos;
 
@@ -36,4 +38,6 @@ public interface ServiceCta {
 	public Flux<Movimientos> getMovimientos(String nro_cuenta);
 	
 	public Flux<Movimientos> getRangeMovimientos(String nro_cuenta, String from, String to);
+	
+	public Flux<Deudores> saveDeudoresAhorro(List<Deudores> deudores);
 }

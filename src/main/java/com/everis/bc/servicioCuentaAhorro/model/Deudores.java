@@ -8,8 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection="c_deudores")
 public class Deudores {
 	
-	@Id
-	private int id;
+	
 	@NotNull
 	private String documento;
 	@NotNull
@@ -19,12 +18,6 @@ public class Deudores {
 	@NotNull
 	private double deuda;
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getDocumento() {
 		return documento;
 	}
