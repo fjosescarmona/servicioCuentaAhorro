@@ -171,25 +171,35 @@ public class ServiceCtaImplement implements ServiceCta {
 			// -----------------valida si tiene movimientos disponibles en el
 			// mes-----------------//
 			if (cta.getLastmove().getMonth() == mov.getFecha().getMonth() && cta.getMovesxmonth() > 0) {
+				
+				if ((cta.getSaldo() + mov.getMonto()) - mov.getComision() >= 0) {
 				Double saldo = cta.getSaldo();
-				cta.setSaldo(saldo + mov.getMonto());
+				cta.setSaldo(saldo + mov.getMonto() - mov.getComision());
 				cta.setMovesxmonth(cta.getMovesxmonth() - 1);
 				cta.setLastmove(mov.getFecha());
 				return repo1.save(cta).flatMap(ncta -> {
 					return repoMov.save(mov);
 				});
+				} else {
+					return Mono.just(new Movimientos());
+				}
 
 			} else {
 				// -si el mes de la transaccion es distinto reinicia la cantidad de movimientos
 				// por mes-//
 				if (cta.getLastmove().getMonth() != mov.getFecha().getMonth()) {
+					
+					if ((cta.getSaldo() + mov.getMonto()) - mov.getComision() >= 0) {
 					Double saldo = cta.getSaldo();
-					cta.setSaldo(saldo + mov.getMonto());
+					cta.setSaldo(saldo + mov.getMonto() - mov.getComision());
 					cta.setLastmove(mov.getFecha());
 					cta.setMovesxmonth(4);
 					return repo1.save(cta).flatMap(ncta -> {
 						return repoMov.save(mov);
 					});
+					} else {
+						return Mono.just(new Movimientos());
+					}
 
 					// --si no tiene movimientos disponibles en el mes aplica el cobro de
 					// comision--//
@@ -197,10 +207,10 @@ public class ServiceCtaImplement implements ServiceCta {
 					Double saldo = cta.getSaldo();
 					// Double comision = 15.00;
 
-					if ((saldo + mov.getMonto()) - comision >= 0) {
-						cta.setSaldo(saldo + mov.getMonto() - comision);
+					if ((saldo + mov.getMonto()) - comision - mov.getComision() >= 0) {
+						cta.setSaldo(saldo + mov.getMonto() - comision - mov.getComision());
 						cta.setLastmove(mov.getFecha());
-						mov.setComision(comision);
+						mov.setComision(mov.getComision()+comision);
 						return repo1.save(cta).flatMap(ncta -> {
 							return repoMov.save(mov);
 						});
@@ -225,8 +235,8 @@ public class ServiceCtaImplement implements ServiceCta {
 				//cta.setSaldo(saldo + mov.getMonto());
 				cta.setLastmove(mov.getFecha());
 				cta.setMovesxmonth(cta.getMovesxmonth() - 1);
-				if (saldo >= mov.getMonto()) {
-					cta.setSaldo(saldo - mov.getMonto());
+				if (saldo >= mov.getMonto()+mov.getComision()) {
+					cta.setSaldo(saldo - mov.getMonto() - mov.getComision());
 					return repo1.save(cta).flatMap(ncta -> {
 						return repoMov.save(mov);
 					});
@@ -241,8 +251,8 @@ public class ServiceCtaImplement implements ServiceCta {
 				if (cta.getLastmove().getMonth() != mov.getFecha().getMonth()) {
 					Double saldo = cta.getSaldo();
 					//cta.setSaldo(saldo + mov.getMonto());
-					if (saldo >= mov.getMonto()) {
-						cta.setSaldo(saldo - mov.getMonto());
+					if (saldo >= mov.getMonto()+mov.getComision()) {
+						cta.setSaldo(saldo - mov.getMonto() - mov.getComision());
 						cta.setLastmove(mov.getFecha());
 						cta.setMovesxmonth(4);
 						return repo1.save(cta).flatMap(ncta -> {
@@ -259,9 +269,9 @@ public class ServiceCtaImplement implements ServiceCta {
 					// Double comision = 15.0;
 					//cta.setSaldo(saldo + mov.getMonto());
 					cta.setLastmove(mov.getFecha());
-					mov.setComision(comision);
-					if (saldo >= mov.getMonto() + comision) {
-						cta.setSaldo(saldo - mov.getMonto() - comision);
+					mov.setComision(mov.getComision()+comision);
+					if (saldo >= mov.getMonto() + comision +mov.getComision()) {
+						cta.setSaldo(saldo - mov.getMonto() - comision - mov.getComision());
 						return repo1.save(cta).flatMap(ncta -> {
 							return repoMov.save(mov);
 						});
