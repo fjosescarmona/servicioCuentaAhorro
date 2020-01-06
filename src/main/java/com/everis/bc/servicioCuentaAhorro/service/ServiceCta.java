@@ -27,6 +27,8 @@ public interface ServiceCta {
 	
 	public Mono<Movimientos> savePagotdc(Movimientos mov);
 	
+	public Mono<Movimientos> savePagoMinimotdcAhorro(Movimientos mov);
+	
 	public Mono<Movimientos> saveDeposito(Movimientos mov);
 	
 	public Mono<Movimientos> saveRetiro(Movimientos mov);

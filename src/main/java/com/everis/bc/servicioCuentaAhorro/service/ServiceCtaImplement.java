@@ -452,4 +452,41 @@ public class ServiceCtaImplement implements ServiceCta {
 		}).switchIfEmpty(repod.saveAll(deudores));
 		
 	}
+
+	@Override
+	public Mono<Movimientos> savePagoMinimotdcAhorro(Movimientos mov) {
+		// TODO Auto-generated method stub
+		return repo1.findByNro_cuenta(mov.getNro_cuenta()).flatMap(cta -> {
+
+			if (cta.getSaldo() >= mov.getMonto()) {
+				cta.setSaldo(cta.getSaldo() - mov.getMonto());
+				
+				//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+				//LocalDateTime now = LocalDateTime.now();
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("nro_tarjeta", mov.getNro_tarjeta());
+				params.put("descripcion", "pago minimo tdc");
+				params.put("monto", mov.getMonto());
+				params.put("fecha", mov.getFecha());
+
+				return client.post().uri("/savePagoMinimoTC").accept(MediaType.APPLICATION_JSON_UTF8)
+						.body(BodyInserters.fromObject(params)).retrieve().bodyToMono(Movimientos.class)
+						.flatMap(ptdc -> {
+
+							if (!ptdc.getNro_tarjeta().equals(null)) {
+								return repo1.save(cta).flatMap(ncta -> {
+									return repoMov.save(mov);
+								});
+							} else {
+								return Mono.just(new Movimientos());
+							}
+
+						});
+
+			} else {
+
+				return Mono.just(new Movimientos());
+			}
+		});
+	}
 }

@@ -51,6 +51,11 @@ public class CuentaAhorroController {
 		return s_cuenta.savePagotdc(movimiento);
 	}
 	
+	@PostMapping("/savePagoMinimotdcAhorro")
+	public Mono<Movimientos> savePagoMinimotdcAhorro(@RequestBody Movimientos movimiento){
+		return s_cuenta.savePagoMinimotdcAhorro(movimiento);
+	}
+	
 	@PostMapping("/saveDepositoAhorro")
 	public Mono<Movimientos> saveDepositoAhorro(@RequestBody Movimientos movimiento){
 		return s_cuenta.saveDeposito(movimiento);
